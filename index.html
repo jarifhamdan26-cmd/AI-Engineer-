@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI Engineer Quest</title>
+<style>
+:root{--bg:#09070f;--card:#100c1d;--ink:#f4f1ff;--mute:#8d84ad;--line:#241b3d;--acc:#8b5cf6;--acc2:#b6f23a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+p{margin:0}
+.wrap{max-width:560px;margin:0 auto;padding:28px 18px 48px}
+.top{display:flex;justify-content:space-between;align-items:flex-start}
+h1{margin:0;font-size:22px;letter-spacing:-.02em}
+.sub{color:var(--acc2);font-size:13px;font-weight:600}
+.ib{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;color:var(--mute);flex:none}
+.stats{display:flex;gap:26px;margin:24px 0 16px;font-size:12px;color:var(--mute)}
+.stats b{display:block;color:var(--ink);font-size:20px;font-weight:650}
+.bar,.mb{height:6px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i,.mb i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:9px;transition:width .4s}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:12px;margin:8px 0 18px}
+.go{width:100%;padding:13px;border-radius:12px;background:var(--acc2);color:#0b0b0b;font-weight:650;margin-bottom:26px}
+.go:disabled{background:var(--line);color:var(--mute);cursor:default}
+.row{display:flex;align-items:center;gap:14px;padding:14px 4px;border-top:1px solid var(--line);cursor:pointer}
+.row:last-child{border-bottom:1px solid var(--line)}
+.ic{font-size:22px;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--card);flex:none}
+.mid{flex:1;min-width:0}
+.mid b{display:block;font-weight:600}
+.mid small{display:block;color:var(--mute);font-size:12px;margin-bottom:7px}
+.cnt{color:var(--mute);font-size:13px}
+.dn .cnt{color:var(--acc2);font-weight:700}
+.lk{opacity:.5}
+.foot{text-align:center;margin-top:26px}
+.link{color:var(--mute);font-size:12px;text-decoration:underline}
+.ov{position:fixed;inset:0;background:rgba(5,3,10,.72);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.ov.on{opacity:1;pointer-events:auto}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:22px 22px 0 0;width:100%;max-width:560px;max-height:86vh;overflow:auto;padding:18px 18px calc(22px + env(safe-area-inset-bottom,0px));transform:translateY(30px);transition:transform .25s}
+.ov.on .sheet{transform:none}
+@media(min-width:640px){.ov{align-items:center}.sheet{border-radius:22px;max-height:80vh}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sh b{display:block}
+.sh small{color:var(--mute);font-size:12px}
+.sh .x{margin-left:auto;width:32px;height:32px;border-radius:50%;background:var(--bg);color:var(--mute);flex:none}
+.seg{display:flex;background:var(--bg);border-radius:12px;padding:3px;margin-bottom:12px}
+.seg button{flex:1;padding:8px;border-radius:9px;font-size:13px;color:var(--mute)}
+.seg .on{background:var(--line);color:var(--ink)}
+.qr{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ck{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:13px;color:#0b0b0b}
+.ck.on{background:var(--acc2);border-color:var(--acc2)}
+.qt{flex:1;cursor:pointer}
+.qt small{display:block;color:var(--mute);font-size:12px}
+.qr>span{color:var(--mute)}
+.note{color:var(--mute);font-size:13px;margin-bottom:6px}
+h4{margin:14px 0 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chips span{border:1px solid var(--line);border-radius:99px;padding:3px 10px;font-size:12px;color:var(--mute)}
+.goal{border:1px solid var(--acc2);border-radius:14px;padding:12px;margin:6px 0 16px}
+.cta{width:100%;padding:13px;border-radius:12px;background:var(--acc);color:#fff;font-weight:650}
+.cta.on{background:var(--line);color:var(--ink)}
+.cta:disabled{opacity:.5;cursor:default}
+ul.rs{margin:6px 0 0;padding-left:18px;color:var(--mute)}
+ul.rs li{margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,150%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:14px;font-weight:600;font-size:14px;transition:.35s;z-index:20;max-width:90%;text-align:center}
+.toast.on{transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>AI Engineer Quest 🚀</h1><span class="sub" id="rank"></span></div>
+    <button class="ib" id="info" aria-label="How it works">i</button>
+  </div>
+  <div class="stats">
+    <div><b id="lvl">1</b>Level</div>
+    <div><b id="xp">0</b>XP</div>
+    <div><b id="streak">0🔥</b>Day streak</div>
+  </div>
+  <div class="bar"><i id="fill" style="width:0"></i></div>
+  <div class="meta"><span id="next"></span><span id="pct"></span></div>
+  <button class="go" id="ci">Check in today · +5 XP</button>
+  <div id="list"></div>
+  <div class="foot"><button class="link" id="rs">Reset progress</button></div>
+</div>
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+var P=[
+{n:"Python & Git",i:"🐍",t:["Finish a Python course (CS50P)","Solve 30 practice problems","Push 15 commits to GitHub"],b:"Boss: command-line study tracker"},
+{n:"DSA & Math",i:"🧮",t:["Arrays, stacks, queues in C or C++","Sorting and Big-O","Linear algebra + probability basics"],b:"Boss: solve 50 problems"},
+{n:"Backend & SQL",i:"🗄️",t:["Write 20 SQL queries","Call 3 public APIs","Build FastAPI endpoints"],b:"Boss: notes API with SQLite"},
+{n:"LLM Apps",i:"🤖",t:["Make your first model API call","Get structured JSON output","Add tool calling + 10 test questions"],b:"Boss: Bengali study helper"},
+{n:"RAG",i:"📚",t:["Build chunk + embed by hand","Compare 3 chunk sizes","Make it refuse unknown answers"],b:"Boss: business FAQ chatbot"},
+{n:"Agents",i:"🧭",t:["Write the agent loop in plain Python","Add 2–3 tools","Add step limit + logging"],b:"Boss: booking assistant"},
+{n:"Eval & Production",i:"🛡️",t:["Write a 30-question test set","Build and run a Docker image","Secure secrets + rate limits"],b:"Boss: live deployed URL"},
+{n:"ML & Deep Learning",i:"🧠",t:["Finish Kaggle Learn basics","Train a scikit-learn model","Watch Karpathy’s Zero to Hero series"],b:"Boss: model on your own dataset"},
+{n:"Ship & Sell",i:"💼",t:["Build a demo for a real business","Pitch an owner in 2 minutes","Write a one-page case study"],b:"Boss: first paying client"}];
+var D=[
+["Watch 2–3 lectures a week and re-solve one example from memory after each.","FizzBuzz, palindromes, word counter, prime checker. Write them yourself, no AI answers.","Learn init, add, commit, push, then push after every practice session.","A command-line app that logs daily study hours per subject and prints a weekly summary."],
+["Re-implement lists, stacks and queues from scratch in C or C++ to understand memory.","Learn bubble, merge and quick sort, and compare their speed using Big-O notation.","Vectors, matrices, probability and averages. Your HSC math already covers a lot of this.","Solve 50 easy problems on Codeforces or LeetCode in C++ or Python."],
+["Practice SELECT, WHERE, JOIN and GROUP BY on your own SQLite tables.","Use the requests library on weather, quotes and currency APIs and save the JSON.","Create endpoints that return and accept JSON, and explore the auto-generated docs page.","Create, read, update and delete notes through an API backed by a SQLite database."],
+["Send a prompt from Python in about 10 lines and print the reply and token count.","Make the model return clean JSON, parse it, and handle bad output without crashing.","Let the model call your Python function, and write 10 test questions to check its answers.","Explain a topic in Bengali, make a short quiz and check answers, all behind one endpoint."],
+["Split text, embed the chunks, store the vectors and fetch the closest ones, with no framework.","Try 200, 500 and 1000 characters and record which size scores best on 20 questions.","Ask something that isn’t in the document: the bot should say it doesn’t know.","Feed a business’s menu, prices and policies to a bot that answers customer questions with sources."],
+["Write the loop yourself (think, call a tool, read the result, decide) before using any framework.","Give it a database search, a file reader and a message sender.","Stop runaway loops with a maximum step count and log every step.","An assistant that answers questions, checks availability and records an order."],
+["Write 30 questions with expected answers and run them after every change.","Write a Dockerfile, build the image and run it locally.","Keep keys out of your repo, add rate limits, and retry when an API call fails.","Deploy your FAQ chatbot online with tests, logs and a README, then open it from your phone."],
+["Finish the Python, Pandas and Intro to ML micro-courses on Kaggle Learn.","Predict house prices or student marks and explain overfitting on your own data.","Follow the free video series and build a small neural network step by step.","Collect a Bangladeshi dataset, train a model and report how well it works."],
+["Use a local business’s public info to make a free chatbot or website demo.","Show it on a phone in two minutes and name a setup fee plus a monthly fee.","Write the problem, what you built and the result: one page per client.","Close your first paid project and deliver it."]];
+var PT=["Months 1–2","Months 2–5, alongside Phases 1–3","Months 3–4","Months 5–6","Months 7–8","Months 9–10","Months 11–12","After admission, about 3–4 months","From Month 8, ongoing"];
+var TP=[
+["variables, conditionals, loops, functions, lists, dictionaries, files, exceptions, classes, libraries","strings, loops, lists, dictionaries, functions, recursion basics","init, add, commit, push, branches, .gitignore, README","file input/output, dictionaries, dates, functions, classes"],
+["arrays, linked lists, stacks, queues, pointers, dynamic memory","bubble, selection, insertion, merge and quick sort, binary search, Big-O","vectors, matrices, dot product, probability, mean, variance, combinations","arrays, strings, sorting, hash maps, recursion"],
+["SELECT, WHERE, ORDER BY, JOIN, GROUP BY, indexes, primary and foreign keys","HTTP methods, status codes, JSON, headers, API keys, .env files","routes, request bodies, validation, status codes, async basics, virtual environments","CRUD, SQLite, FastAPI models, error handling, tests"],
+["tokens, context window, system prompts, temperature, cost, rate limits","JSON schema, parsing, validation, retries, streaming","tool definitions, function calling, test sets, prompt comparison","system prompts, Bengali output, quiz generation, FastAPI, input validation"],
+["chunking, embeddings, cosine similarity, vector stores, retrieval, prompt context","chunk size, overlap, top-k results, scoring answers","similarity threshold, refusal prompts, citing sources","document loading, retrieval, source citation, a simple chat interface"],
+["agent loop, tool schemas, message history, stop conditions","tool design, argument validation, tool errors, database queries","max steps, logs, timeouts, human confirmation","state, availability checks, order recording, confirmation messages"],
+["test sets, scoring, regression checks, retrieval metrics","Dockerfile, images, containers, ports, environment variables","secrets, rate limits, retries, prompt injection basics, logging","cloud deploy, HTTPS, logs, monitoring, cost tracking"],
+["NumPy, Pandas, train/test split, features, evaluation","regression, classification, overfitting, cross-validation, metrics","tensors, gradients, backpropagation, PyTorch, training loops","data collection, cleaning, train/test split, error analysis"],
+["needs discovery, public info, demo building, pricing","pitch structure, live demo, handling objections, setup + monthly pricing","problem, solution, result, screenshots, cost","scope, contract basics, delivery, payment, support"]];
+var G=[
+["Finish every course problem set and write a 50-line program from a blank file.","30 solved problems in a GitHub repo, each with a short comment.","A public repo with 15+ meaningful commits and a README.","A working tracker that saves data between runs and prints a weekly report."],
+["Implement each structure from scratch and test it with 5 cases.","Time each sort on 10,000 numbers and explain the results in a short note.","Solve 20 problems and multiply two matrices by hand.","50 accepted solutions, with notes on your 5 hardest."],
+["Design 3 linked tables and answer 20 queries without help.","A script that calls 3 APIs and stores the results in a file or database.","5 working endpoints, tested from the docs page.","A full CRUD API with a README and 5 passing tests."],
+["Print the reply and token count, and explain what the call cost.","Turn 20 messy inputs into valid JSON and measure your failure rate.","The model calls your function correctly in 8 of 10 test questions.","Runs locally and handles bad input and API failure without crashing."],
+["Answer 10 questions from one PDF using your own code.","A table of scores for 3 chunk sizes and a pick you can justify.","Correct refusals on 5 questions that are not in the document.","Answers 20 real customer questions correctly, with the source shown."],
+["An agent that solves a 3-step task using one tool.","The agent picks the right tool in 9 of 10 test tasks.","The log shows every step and the agent stops safely when stuck.","Completes 10 test bookings end to end with no wrong entries."],
+["One script gives a pass percentage after every change.","The app runs on a fresh machine with a single docker run command.","No key in your repo history, and the app survives a simulated API outage.","A public URL a friend can use, with logs that show each request."],
+["Three finished Kaggle micro-courses or notebooks.","Your model beats a simple baseline and you can show why.","A network trained from scratch on digits with over 95% accuracy.","A short report with data source, method, results and limits."],
+["A working demo for a real business, shown to its owner.","Pitch 3 business owners and write down their feedback.","A one-page case study ready to send.","A client pays you and the system runs live."]];
+var M=[
+["Writing code on your own, and saving and sharing your work.","Every later phase uses Python, and Git keeps your projects safe.","You can build and keep any project without needing AI for every line."],
+["Solving problems step by step with math and efficient methods.","Builds the thinking behind BUET admission, CSE courses and later ML.","You write faster, cleaner code and can explain why it works."],
+["How apps store data and talk to each other over the internet.","Your AI products need a backend and a database to run.","You can build the working system around an AI model, not just a demo."],
+["How to connect an AI model to your own app and control its answers.","RAG and agents are both built on top of this.","You can add chat, quizzes and summaries to any product."],
+["How to make AI answer from a business’s own documents.","Most business AI tools are built this way.","You have your first sellable product: a chatbot that knows one business."],
+["How AI uses tools, checks results and decides what to do next.","Lets your products do tasks, not only answer questions.","You can build assistants that handle bookings, orders and routine work."],
+["How to test answers, protect secrets and put a product online.","Turns a demo into something clients can trust.","Your product works for real users, and you can spot and fix failures."],
+["How models learn from data and what happens inside them.","Helps in BUET courses, research and advanced AI work.","You can tell when a model is wrong and why, and train a simple one yourself."],
+["How to find customers, show a demo, set a price and deliver.","Turns every earlier skill into income and proof.","Real clients, case studies and a portfolio that supports your founder goals."]];
+var L=[
+"CS50P by Harvard (free, on YouTube) · freeCodeCamp Python course on YouTube · Pro Git book (git-scm.com) · practice on Exercism or HackerRank",
+"CS50x by Harvard for C basics · freeCodeCamp DSA courses · NeetCode on YouTube · Codeforces and LeetCode for practice · Khan Academy and 3Blue1Brown (Essence of Linear Algebra) for math",
+"SQLBolt and SQLZoo · the official FastAPI tutorial (fastapi.tiangolo.com) · MDN Web Docs ‘HTTP overview’ · Postman Learning Center",
+"Claude docs quickstart (docs.claude.com) · Anthropic Cookbook on GitHub · DeepLearning.AI free short courses on prompting and building with model APIs",
+"DeepLearning.AI short courses on RAG · Chroma docs · Pinecone Learning Center guides on RAG",
+"Anthropic’s ‘Building effective agents’ article · Claude docs on tool use · DeepLearning.AI short courses on agents",
+"Docker ‘Get Started’ docs · pytest docs · Render or Railway docs for deploying · Hamel Husain’s blog posts on evals",
+"Kaggle Learn · Andrew Ng’s Machine Learning Specialization on Coursera · fast.ai Practical Deep Learning · Andrej Karpathy’s Zero to Hero on YouTube · StatQuest on YouTube",
+"Y Combinator Startup School (free) · the book The Mom Test · Fiverr and Upwork for first freelance practice · talking directly to local business owners"];
+var R=["Rookie","Coder","Builder","Engineer","Architect","AI Engineer"],T=[0,100,250,400,550,700],NQ=4;
+var S={d:{},st:0,last:"",ci:0},V=null;
+try{var raw=localStorage.getItem("aiq");if(raw)S=JSON.parse(raw)}catch(e){}
+function save(){try{localStorage.setItem("aiq",JSON.stringify(S))}catch(e){}}
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function qt(p,k){return k<3?P[p].t[k]:P[p].b}
+function xpOf(k){return k==3?40:15}
+function pdone(p){var c=0;for(var k=0;k<NQ;k++)if(S.d[p+"-"+k])c++;return c}
+function total(){var x=(S.ci||0)*5;for(var p=0;p<P.length;p++)for(var k=0;k<NQ;k++)if(S.d[p+"-"+k])x+=xpOf(k);return x}
+function lvl(x){var l=0;for(var i=0;i<T.length;i++)if(x>=T[i])l=i;return l}
+function unlocked(p){return p==0||pdone(p-1)>=2}
+function toast(m){var t=$("toast");t.textContent=m;t.className="toast on";clearTimeout(toast.h);toast.h=setTimeout(function(){t.className="toast"},2600)}
+function fmt(d){return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function today(){return fmt(new Date())}
+function yest(){var y=new Date();y.setDate(y.getDate()-1);return fmt(y)}
+function streak(){return S.last==today()||S.last==yest()?S.st:0}
+function render(old){
+  var x=total(),l=lvl(x),c=0,h="";
+  P.forEach(function(ph,p){
+    var d=pdone(p),un=unlocked(p);c+=d;
+    h+='<div class="row'+(un?"":" lk")+(d==NQ?" dn":"")+'" data-p="'+p+'"><span class="ic">'+ph.i+'</span><div class="mid"><b>'+esc(ph.n)+'</b><small>'+PT[p]+'</small><div class="mb"><i style="width:'+(d/NQ*100)+'%"></i></div></div><span class="cnt">'+(d==NQ?"✓":un?d+"/"+NQ:"🔒")+'</span></div>';
+  });
+  $("list").innerHTML=h;
+  var pc=Math.round(c/(P.length*NQ)*100),done=S.last==today();
+  $("lvl").textContent=l+1;$("xp").textContent=x;$("streak").textContent=streak()+"🔥";
+  $("fill").style.width=pc+"%";$("pct").textContent=pc+"% complete";$("rank").textContent=R[l];
+  $("next").textContent=T[l+1]?(T[l+1]-x)+" XP to "+R[l+1]:"Top rank reached 🏆";
+  $("ci").disabled=done;$("ci").textContent=done?"Checked in today ✓":"Check in today · +5 XP";
+  if(V)drawSheet();
+  if(old!==undefined&&l>old)toast("Level up! You are now "+R[l]+" 🎉");
+}
+function drawSheet(){
+  var h="",p=V.p,ph=P[p];
+  if(V.info){
+    h='<div class="sh"><div><b>How it works</b><small>XP, ranks and pace</small></div><button class="x" data-a="close" aria-label="Close">✕</button></div>'
+    +'<h4>XP</h4><p>Each quest is worth 15 XP, each boss project 40 XP, and a daily check-in 5 XP.</p>'
+    +'<h4>Ranks</h4><p>'+R.join(" › ")+'</p>'
+    +'<h4>Unlocking</h4><p>A phase unlocks once you finish half of the one before it.</p>'
+    +'<h4>Pace</h4><p>Time ranges assume 4–5 hours a week during exam prep. They are targets, not deadlines. HSC and admission come first.</p>'
+    +'<h4>The final result</h4><p>By the end you can build, test, launch and sell AI tools for businesses, on top of the computer science base BUET CSE expects.</p>'
+    +'<h4>Stuck?</h4><p>Ask Claude to explain any lesson in Bengali.</p>';
+  }else if(V.q!=null){
+    var k=V.q,on=!!S.d[p+"-"+k],un=unlocked(p);
+    h='<div class="sh"><button class="ib" data-a="back" aria-label="Back">‹</button><div><b>'+esc(qt(p,k))+'</b><small>Phase '+(p+1)+' · +'+xpOf(k)+' XP</small></div><button class="x" data-a="close" aria-label="Close">✕</button></div>'
+    +'<h4>What to do</h4><p>'+esc(D[p][k])+'</p>'
+    +'<h4>Topics</h4><div class="chips">'+TP[p][k].split(", ").map(function(t){return '<span>'+esc(t)+'</span>'}).join("")+'</div>'
+    +'<h4>Finish when</h4><div class="goal">'+esc(G[p][k])+'</div>'
+    +'<button class="cta'+(on?" on":"")+'" data-a="tick" data-k="'+k+'"'+(un?"":" disabled")+'>'+(on?"Done ✓ Tap to undo":un?"Mark as done":"Locked")+'</button>';
+  }else{
+    var tab=V.t||"q";
+    h='<div class="sh"><span class="ic">'+ph.i+'</span><div><b>Phase '+(p+1)+': '+esc(ph.n)+'</b><small>'+PT[p]+'</small></div><button class="x" data-a="close" aria-label="Close">✕</button></div>'
+    +'<div class="seg">'+[["q","Quests"],["o","Overview"],["r","Resources"]].map(function(t){return '<button data-a="tab" data-t="'+t[0]+'" class="'+(tab==t[0]?"on":"")+'">'+t[1]+'</button>'}).join("")+'</div>';
+    if(tab=="q"){
+      if(!unlocked(p))h+='<p class="note">Finish half of Phase '+p+' to unlock these quests.</p>';
+      for(var k2=0;k2<NQ;k2++){
+        h+='<div class="qr"><button class="ck'+(S.d[p+"-"+k2]?" on":"")+'" data-a="tick" data-k="'+k2+'" aria-label="Toggle quest">'+(S.d[p+"-"+k2]?"✓":"")+'</button><div class="qt" data-a="quest" data-k="'+k2+'"><b>'+esc(qt(p,k2))+'</b><small>+'+xpOf(k2)+' XP · tap for details</small></div><span>›</span></div>';
+      }
+    }else if(tab=="o"){
+      h+='<h4>You learn</h4><p>'+esc(M[p][0])+'</p><h4>It helps with</h4><p>'+esc(M[p][1])+'</p><h4>At the end</h4><p>'+esc(M[p][2])+'</p>';
+    }else{
+      h+='<h4>Learn from</h4><ul class="rs">'+L[p].split(" · ").map(function(r){return '<li>'+esc(r)+'</li>'}).join("")+'</ul><p class="note" style="margin-top:12px">Course pages and free tiers change. If a link has moved, search the title.</p>';
+    }
+  }
+  $("sheet").innerHTML=h;
+}
+function openV(v){V=v;drawSheet();$("sheet").scrollTop=0;$("ov").classList.add("on");document.body.style.overflow="hidden"}
+function closeV(){V=null;$("ov").classList.remove("on");document.body.style.overflow=""}
+function tick(p,k){
+  var key=p+"-"+k,old=lvl(total()),was=pdone(p)==NQ;
+  if(S.d[key])delete S.d[key];else{if(!unlocked(p))return;S.d[key]=1}
+  save();render(old);
+  if(S.d[key]&&!was&&pdone(p)==NQ)toast("Badge earned: "+P[p].n+" 🏅");
+}
+$("sheet").onclick=function(e){
+  var t=e.target.closest("[data-a]");if(!t)return;
+  var a=t.dataset.a,p=V.p;
+  if(a=="close")closeV();
+  else if(a=="tick")tick(p,+t.dataset.k);
+  else{
+    if(a=="tab")V={p:p,t:t.dataset.t};
+    else if(a=="quest")V={p:p,q:+t.dataset.k};
+    else if(a=="back")V={p:p,t:"q"};
+    drawSheet();$("sheet").scrollTop=0;
+  }
+};
+$("ov").onclick=function(e){if(e.target==this)closeV()};
+$("list").onclick=function(e){var r=e.target.closest(".row");if(r)openV({p:+r.dataset.p,t:"q"})};
+$("info").onclick=function(){openV({info:1})};
+document.onkeydown=function(e){if(e.key=="Escape")closeV()};
+$("ci").onclick=function(){
+  var t=today();
+  if(S.last==t){toast("Already checked in today");return}
+  var old=lvl(total());
+  S.st=S.last==yest()?S.st+1:1;S.last=t;S.ci=(S.ci||0)+1;save();render(old);
+  toast("Streak: "+S.st+" day"+(S.st>1?"s":"")+" 🔥 +5 XP");
+};
+$("rs").onclick=function(){
+  var b=this;
+  if(b.dataset.c){S={d:{},st:0,last:"",ci:0};save();render();b.textContent="Reset progress";delete b.dataset.c;return}
+  b.dataset.c=1;b.textContent="Tap again to confirm";
+  setTimeout(function(){b.textContent="Reset progress";delete b.dataset.c},3000);
+};
+render();
+</script>
+</body>
+</html>
